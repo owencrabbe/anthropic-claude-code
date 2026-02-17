@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Off-Market Deal Automation System</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0f1b2d;
+    --navy-light: #1a2a42;
+    --slate: #2d3a4a;
+    --bg: #f0f2f5;
+    --card: #ffffff;
+    --blue: #2563eb;
+    --blue-light: #eff6ff;
+    --blue-border: #bfdbfe;
+    --teal: #0d9488;
+    --teal-light: #f0fdfa;
+    --teal-border: #99f6e4;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --green-border: #bbf7d0;
+    --orange: #ea580c;
+    --orange-light: #fff7ed;
+    --orange-border: #fed7aa;
+    --coral: #dc2626;
+    --coral-light: #fef2f2;
+    --coral-border: #fecaca;
+    --purple: #7c3aed;
+    --purple-light: #f5f3ff;
+    --purple-border: #ddd6fe;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.04);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,.10), 0 8px 32px rgba(0,0,0,.06);
+  }
+
+  body {
+    font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: #1e293b;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff;
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .header-left h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+  }
+  .header-left p {
+    margin-top: 4px;
+    font-size: 15px;
+    color: #94a3b8;
+    font-weight: 400;
+  }
+  .header-badge {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #cbd5e1;
+    white-space: nowrap;
+  }
+  .header-badge strong { color: #fff; font-size: 15px; }
+
+  /* ── Main grid ── */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 28px;
+    padding: 32px 48px 48px;
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+
+  /* ── Swimlanes column ── */
+  .swimlanes { display: flex; flex-direction: column; gap: 0; }
+
+  /* ── Lane ── */
+  .lane {
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 24px 28px;
+    position: relative;
+    border-left: 5px solid;
+  }
+  .lane + .lane { margin-top: 0; }
+
+  .lane-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .lane-number {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; color: #fff;
+    flex-shrink: 0;
+  }
+  .lane-title { font-size: 17px; font-weight: 700; }
+  .lane-subtitle { font-size: 13px; color: #64748b; margin-left: auto; font-weight: 500; }
+
+  .lane-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Nodes inside lanes ── */
+  .node {
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 14px 18px;
+    flex: 1;
+    min-width: 180px;
+  }
+  .node-label {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .node-label .icon { font-size: 16px; }
+  .node-detail {
+    font-size: 12px;
+    color: #475569;
+    line-height: 1.6;
+  }
+  .node-detail li { margin-left: 14px; }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 6px;
+    margin-top: 6px;
+    margin-right: 4px;
+  }
+
+  /* ── Lane colors ── */
+  .lane--blue   { border-left-color: var(--blue); }
+  .lane--blue .lane-number  { background: var(--blue); }
+  .lane--blue .node { background: var(--blue-light); border-color: var(--blue-border); }
+  .lane--blue .badge { background: #dbeafe; color: var(--blue); }
+
+  .lane--teal   { border-left-color: var(--teal); }
+  .lane--teal .lane-number  { background: var(--teal); }
+  .lane--teal .node { background: var(--teal-light); border-color: var(--teal-border); }
+  .lane--teal .badge { background: #ccfbf1; color: #0f766e; }
+
+  .lane--green  { border-left-color: var(--green); }
+  .lane--green .lane-number { background: var(--green); }
+  .lane--green .node { background: var(--green-light); border-color: var(--green-border); }
+  .lane--green .badge { background: #dcfce7; color: #15803d; }
+
+  .lane--orange { border-left-color: var(--orange); }
+  .lane--orange .lane-number { background: var(--orange); }
+  .lane--orange .node { background: var(--orange-light); border-color: var(--orange-border); }
+  .lane--orange .badge { background: #ffedd5; color: #c2410c; }
+
+  .lane--coral  { border-left-color: var(--coral); }
+  .lane--coral .lane-number { background: var(--coral); }
+  .lane--coral .node { background: var(--coral-light); border-color: var(--coral-border); }
+  .lane--coral .badge { background: #fee2e2; color: #b91c1c; }
+
+  .lane--purple { border-left-color: var(--purple); }
+  .lane--purple .lane-number { background: var(--purple); }
+  .lane--purple .node { background: var(--purple-light); border-color: var(--purple-border); }
+  .lane--purple .badge { background: #ede9fe; color: #6d28d9; }
+
+  /* ── Arrows between lanes ── */
+  .arrow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 0;
+    position: relative;
+  }
+  .arrow-row svg { display: block; }
+  .arrow-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    background: var(--bg);
+    padding: 2px 12px;
+    border-radius: 20px;
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar { display: flex; flex-direction: column; gap: 24px; }
+
+  .panel {
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-body { padding: 16px 20px; }
+
+  /* Tech stack */
+  .tech-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .tech-item:last-child { border-bottom: none; }
+  .tech-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .tech-name { font-size: 13px; font-weight: 600; }
+  .tech-role { font-size: 12px; color: #64748b; }
+
+  /* KPI cards */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .kpi-card {
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .kpi-value {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: #475569;
+    margin-top: 2px;
+  }
+  .kpi--blue   { background: var(--blue-light); }
+  .kpi--blue .kpi-value { color: var(--blue); }
+  .kpi--teal   { background: var(--teal-light); }
+  .kpi--teal .kpi-value { color: var(--teal); }
+  .kpi--green  { background: var(--green-light); }
+  .kpi--green .kpi-value { color: var(--green); }
+  .kpi--orange { background: var(--orange-light); }
+  .kpi--orange .kpi-value { color: var(--orange); }
+  .kpi--coral  { background: var(--coral-light); }
+  .kpi--coral .kpi-value { color: var(--coral); }
+  .kpi--purple { background: var(--purple-light); }
+  .kpi--purple .kpi-value { color: var(--purple); }
+
+  /* Feedback loop panel */
+  .feedback-panel {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff;
+  }
+  .feedback-panel .panel-header {
+    color: #fff;
+    border-bottom-color: rgba(255,255,255,.1);
+  }
+  .feedback-arrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 13px;
+    color: #cbd5e1;
+  }
+  .feedback-arrow .fa-icon {
+    color: #818cf8;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1200px) {
+    .main { grid-template-columns: 1fr; }
+    .header { padding: 24px 24px; }
+    .main { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════ HEADER ════════════════════════════ -->
+<header class="header">
+  <div class="header-left">
+    <h1>Off-Market Deal Automation System</h1>
+    <p>End-to-end pipeline: data acquisition &rarr; investor matching &rarr; closed deals</p>
+  </div>
+  <div class="header-badge">
+    <strong>24 / 7</strong><br>Multi-Market Automation
+  </div>
+</header>
+
+<!-- ════════════════════════════ MAIN ════════════════════════════ -->
+<div class="main">
+
+  <!-- ──────── Left: Swimlanes ──────── -->
+  <div class="swimlanes">
+
+    <!-- LANE 1 ── Data Acquisition -->
+    <div class="lane lane--blue">
+      <div class="lane-header">
+        <div class="lane-number">1</div>
+        <div class="lane-title">Data Acquisition Layer</div>
+        <div class="lane-subtitle">Property Intelligence</div>
+      </div>
+      <div class="lane-body">
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9678;</span> PropStream / Batch Leads API</div>
+          <div class="node-detail">
+            Pull property data via API integrations. Geo-farm specific neighborhoods &amp; zip codes across target markets.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9670;</span> Seller Indicator Filters</div>
+          <div class="node-detail">
+            <ul>
+              <li>High equity (60%+ LTV)</li>
+              <li>Absentee owners</li>
+              <li>Old mortgages (10+ yrs)</li>
+              <li>Distressed / pre-foreclosure</li>
+            </ul>
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9742;</span> Contact Extraction</div>
+          <div class="node-detail">
+            Pull verified homeowner contact info: phone, email, mailing address. Skip-trace where needed.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="arrow-row">
+      <svg width="40" height="28" viewBox="0 0 40 28"><path d="M20 0 L20 20 M12 14 L20 22 L28 14" stroke="#2563eb" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="arrow-label">Qualified property leads + contact info</span>
+    </div>
+
+    <!-- LANE 2 ── Outreach Automation -->
+    <div class="lane lane--teal">
+      <div class="lane-header">
+        <div class="lane-number">2</div>
+        <div class="lane-title">Outreach Automation Layer</div>
+        <div class="lane-subtitle">Seller Engagement</div>
+      </div>
+      <div class="lane-body">
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9993;</span> OpenClaw Messaging Engine</div>
+          <div class="node-detail">
+            Automated multi-touch sequences: email &amp; SMS drip campaigns. Daily engagement cadence with personalized messaging.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#8635;</span> Drip Sequence Flow</div>
+          <div class="node-detail">
+            Day 1: Intro &rarr; Day 3: Value offer &rarr; Day 7: Follow-up &rarr; Day 14: Final touch &rarr; Ongoing nurture
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9745;</span> Compliance Engine</div>
+          <div class="node-detail">
+            All messaging fully compliant with federal &amp; state regulations.
+          </div>
+          <span class="badge">TCPA Opt-In</span>
+          <span class="badge">CAN-SPAM</span>
+          <span class="badge">DNC Scrub</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="arrow-row">
+      <svg width="40" height="28" viewBox="0 0 40 28"><path d="M20 0 L20 20 M12 14 L20 22 L28 14" stroke="#0d9488" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="arrow-label">Motivated seller responses</span>
+    </div>
+
+    <!-- LANE 3 ── Lead Qualification & CRM -->
+    <div class="lane lane--green">
+      <div class="lane-header">
+        <div class="lane-number">3</div>
+        <div class="lane-title">Lead Qualification &amp; CRM Layer</div>
+        <div class="lane-subtitle">Deal Filtering</div>
+      </div>
+      <div class="lane-body">
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9733;</span> Interested Seller Intake</div>
+          <div class="node-detail">
+            Capture property details from motivated sellers: address, condition, asking price, timeline, motivation level.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9881;</span> HubSpot CRM</div>
+          <div class="node-detail">
+            All lead data flows into HubSpot. Automated pipeline stages, tagging, and activity logging.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#8644;</span> Buying Criteria Match</div>
+          <div class="node-detail">
+            Match each deal against investor criteria:
+            <ul>
+              <li>Target location &amp; zip codes</li>
+              <li>Price range &amp; ARV spread</li>
+              <li>Property condition tier</li>
+              <li>Minimum equity threshold</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="arrow-row">
+      <svg width="40" height="28" viewBox="0 0 40 28"><path d="M20 0 L20 20 M12 14 L20 22 L28 14" stroke="#16a34a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="arrow-label">Qualified deals matched to investor profiles</span>
+    </div>
+
+    <!-- LANE 4 ── Investor Matching -->
+    <div class="lane lane--orange">
+      <div class="lane-header">
+        <div class="lane-number">4</div>
+        <div class="lane-title">Investor Matching Layer</div>
+        <div class="lane-subtitle">Deal Distribution</div>
+      </div>
+      <div class="lane-body">
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9888;</span> Automated Deal Distribution</div>
+          <div class="node-detail">
+            HubSpot workflows auto-send matched deals to relevant investors. Instant notifications via email &amp; SMS.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#128196;</span> Deal Packet Assembly</div>
+          <div class="node-detail">
+            Each investor receives a full packet: property photos, comps, ARV analysis, repair estimates, and financials.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#128202;</span> Response Tracking</div>
+          <div class="node-detail">
+            Track investor opens, clicks, responses, and interest levels. Re-engage cold investors with updated deals.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="arrow-row">
+      <svg width="40" height="28" viewBox="0 0 40 28"><path d="M20 0 L20 20 M12 14 L20 22 L28 14" stroke="#ea580c" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="arrow-label">Interested investor + matched deal</span>
+    </div>
+
+    <!-- LANE 5 ── Transaction Coordination -->
+    <div class="lane lane--coral">
+      <div class="lane-header">
+        <div class="lane-number">5</div>
+        <div class="lane-title">Transaction Coordination Layer</div>
+        <div class="lane-subtitle">Closing</div>
+      </div>
+      <div class="lane-body">
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9964;</span> Licensed Agent Facilitation</div>
+          <div class="node-detail">
+            Licensed real estate agent manages buyer-seller communication, negotiations, and deal structuring.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#128221;</span> Contracts &amp; Negotiation</div>
+          <div class="node-detail">
+            Purchase agreements, counter-offers, inspection contingencies, and amendment handling.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9989;</span> Closing &amp; Compliance</div>
+          <div class="node-detail">
+            Title coordination, escrow management, closing timeline tracking. Full compliance with state real estate laws.
+          </div>
+          <span class="badge">State Licensed</span>
+          <span class="badge">Compliant</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="arrow-row">
+      <svg width="40" height="28" viewBox="0 0 40 28"><path d="M20 0 L20 20 M12 14 L20 22 L28 14" stroke="#dc2626" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="arrow-label">Revenue &amp; data feed back into growth</span>
+    </div>
+
+    <!-- LANE 6 ── Growth Engine -->
+    <div class="lane lane--purple">
+      <div class="lane-header">
+        <div class="lane-number">6</div>
+        <div class="lane-title">Growth Engine</div>
+        <div class="lane-subtitle">Scale &amp; Expand</div>
+      </div>
+      <div class="lane-body">
+        <div class="node">
+          <div class="node-label"><span class="icon">&#128269;</span> Investor Recruitment</div>
+          <div class="node-detail">
+            Scrape cash buyer lists from title companies. Target Facebook groups &amp; REI meetups. Automated outreach to build investor database.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#127758;</span> Market Expansion</div>
+          <div class="node-detail">
+            Clone the automation playbook into new cities &amp; states. Localize filters, compliance rules, and agent network per market.
+          </div>
+        </div>
+        <div class="node">
+          <div class="node-label"><span class="icon">&#9889;</span> Always-On Automation</div>
+          <div class="node-detail">
+            The entire pipeline runs 24/7 across all active markets. AI orchestration monitors performance &amp; adjusts cadences automatically.
+          </div>
+          <span class="badge">24/7</span>
+          <span class="badge">Multi-Market</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /swimlanes -->
+
+  <!-- ──────── Right: Sidebar ──────── -->
+  <div class="sidebar">
+
+    <!-- Tech Stack -->
+    <div class="panel">
+      <div class="panel-header">&#9881; &nbsp;Tech Stack</div>
+      <div class="panel-body">
+        <div class="tech-item">
+          <div class="tech-dot" style="background:var(--blue)"></div>
+          <div>
+            <div class="tech-name">PropStream &amp; Batch Leads</div>
+            <div class="tech-role">Data Acquisition &amp; Skip-Tracing</div>
+          </div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-dot" style="background:var(--teal)"></div>
+          <div>
+            <div class="tech-name">OpenClaw</div>
+            <div class="tech-role">Outreach Automation (Email / SMS)</div>
+          </div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-dot" style="background:var(--green)"></div>
+          <div>
+            <div class="tech-name">HubSpot CRM</div>
+            <div class="tech-role">Lead Management &amp; Deal Distribution</div>
+          </div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-dot" style="background:var(--purple)"></div>
+          <div>
+            <div class="tech-name">Claude / Kimi AI</div>
+            <div class="tech-role">Orchestration &amp; Intelligent Automation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="panel">
+      <div class="panel-header">&#128202; &nbsp;Key Performance Metrics</div>
+      <div class="panel-body">
+        <div class="kpi-grid">
+          <div class="kpi-card kpi--blue">
+            <div class="kpi-value">2,500+</div>
+            <div class="kpi-label">Leads / Month</div>
+          </div>
+          <div class="kpi-card kpi--teal">
+            <div class="kpi-value">8.4%</div>
+            <div class="kpi-label">Seller Response Rate</div>
+          </div>
+          <div class="kpi-card kpi--green">
+            <div class="kpi-value">45</div>
+            <div class="kpi-label">Qualified Deals / Mo</div>
+          </div>
+          <div class="kpi-card kpi--orange">
+            <div class="kpi-value">32%</div>
+            <div class="kpi-label">Investor Conversion</div>
+          </div>
+          <div class="kpi-card kpi--coral">
+            <div class="kpi-value">12</div>
+            <div class="kpi-label">Deals Closed / Mo</div>
+          </div>
+          <div class="kpi-card kpi--purple">
+            <div class="kpi-value">800+</div>
+            <div class="kpi-label">Investor Database</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback Loops -->
+    <div class="panel feedback-panel">
+      <div class="panel-header">&#8635; &nbsp;Feedback Loops</div>
+      <div class="panel-body">
+        <div class="feedback-arrow">
+          <span class="fa-icon">&uarr;</span>
+          <span><strong>Growth &rarr; Data Acquisition:</strong> New markets &amp; neighborhoods feed back into Layer 1 geo-farming targets</span>
+        </div>
+        <div class="feedback-arrow">
+          <span class="fa-icon">&uarr;</span>
+          <span><strong>Growth &rarr; Investor Matching:</strong> Newly recruited investors expand the buyer database in Layer 4</span>
+        </div>
+        <div class="feedback-arrow">
+          <span class="fa-icon">&uarr;</span>
+          <span><strong>Closed Deals &rarr; Growth:</strong> Revenue from closings funds expansion into additional markets</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Status -->
+    <div class="panel">
+      <div class="panel-header">&#9889; &nbsp;System Design Principles</div>
+      <div class="panel-body" style="font-size:13px; color:#475569; line-height:1.7;">
+        <div style="margin-bottom:8px;"><strong style="color:#1e293b;">Fully Automated:</strong> Every step from data pull to investor notification runs without manual intervention.</div>
+        <div style="margin-bottom:8px;"><strong style="color:#1e293b;">Compliance-First:</strong> TCPA, CAN-SPAM, DNC, and state real estate law compliance built into every layer.</div>
+        <div style="margin-bottom:8px;"><strong style="color:#1e293b;">Infinitely Scalable:</strong> Add new markets by cloning the playbook. Linear cost, exponential reach.</div>
+        <div><strong style="color:#1e293b;">AI-Orchestrated:</strong> Claude &amp; Kimi handle decision-making, sequencing, and performance optimization.</div>
+      </div>
+    </div>
+
+  </div><!-- /sidebar -->
+
+</div><!-- /main -->
+
+</body>
+</html>
