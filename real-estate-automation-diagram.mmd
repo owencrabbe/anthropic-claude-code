@@ -1,120 +1,73 @@
-%%{init: {'theme': 'base', 'themeVariables': {
-  'primaryColor': '#eff6ff',
-  'primaryBorderColor': '#2563eb',
-  'lineColor': '#475569',
-  'textColor': '#1e293b',
-  'fontSize': '14px'
-}}}%%
-
 graph TD
 
-%% ══════════════════════════════════════════
-%% LAYER 1 — DATA ACQUISITION
-%% ══════════════════════════════════════════
-subgraph L1["① Data Acquisition Layer"]
-  direction LR
-  A1["🔵 PropStream / Batch Leads API\nGeo-farm neighborhoods & zip codes\nPull property data via API"]
-  A2["🔷 Seller Indicator Filters\n• High equity 60%+ LTV\n• Absentee owners\n• Old mortgages 10+ yrs\n• Distressed / pre-foreclosure"]
-  A3["📞 Contact Extraction\nVerified phone, email, address\nSkip-trace where needed"]
+subgraph L1["1 - Data Acquisition Layer"]
+  A1["PropStream and Batch Leads API"]
+  A2["Seller Filters: High Equity, Absentee, Old Mortgages, Distressed"]
+  A3["Contact Extraction and Skip-Trace"]
   A1 --> A2 --> A3
 end
 
-%% ══════════════════════════════════════════
-%% LAYER 2 — OUTREACH AUTOMATION
-%% ══════════════════════════════════════════
-subgraph L2["② Outreach Automation Layer"]
-  direction LR
-  B1["📧 OpenClaw Messaging Engine\nAutomated email & SMS\nDaily engagement cadence"]
-  B2["🔄 Drip Sequence\nDay 1 Intro → Day 3 Value\n→ Day 7 Follow-up\n→ Day 14 Final → Nurture"]
-  B3["✅ Compliance Engine\n🏷️ TCPA Opt-In\n🏷️ CAN-SPAM\n🏷️ DNC Scrub"]
+subgraph L2["2 - Outreach Automation Layer"]
+  B1["OpenClaw Messaging Engine"]
+  B2["Email and SMS Drip Sequence"]
+  B3["Compliance: TCPA, CAN-SPAM, DNC"]
   B1 --> B2 --> B3
 end
 
-%% ══════════════════════════════════════════
-%% LAYER 3 — LEAD QUALIFICATION & CRM
-%% ══════════════════════════════════════════
-subgraph L3["③ Lead Qualification & CRM Layer"]
-  direction LR
-  C1["⭐ Interested Seller Intake\nAddress, condition, price\nTimeline, motivation level"]
-  C2["⚙️ HubSpot CRM\nAutomated pipeline stages\nTagging & activity logging"]
-  C3["🔀 Buying Criteria Match\n• Target location & zips\n• Price range & ARV\n• Condition tier\n• Min equity threshold"]
+subgraph L3["3 - Lead Qualification and CRM Layer"]
+  C1["Interested Seller Intake"]
+  C2["HubSpot CRM Pipeline"]
+  C3["Buying Criteria Matching"]
   C1 --> C2 --> C3
 end
 
-%% ══════════════════════════════════════════
-%% LAYER 4 — INVESTOR MATCHING
-%% ══════════════════════════════════════════
-subgraph L4["④ Investor Matching Layer"]
-  direction LR
-  D1["🚀 Auto Deal Distribution\nHubSpot workflows send\nmatched deals to investors"]
-  D2["📄 Deal Packet Assembly\nPhotos, comps, ARV\nRepair estimates, financials"]
-  D3["📊 Response Tracking\nOpens, clicks, responses\nRe-engage cold investors"]
+subgraph L4["4 - Investor Matching Layer"]
+  D1["Auto Deal Distribution"]
+  D2["Deal Packet Assembly"]
+  D3["Investor Response Tracking"]
   D1 --> D2 --> D3
 end
 
-%% ══════════════════════════════════════════
-%% LAYER 5 — TRANSACTION COORDINATION
-%% ══════════════════════════════════════════
-subgraph L5["⑤ Transaction Coordination Layer"]
-  direction LR
-  E1["🏛️ Licensed Agent\nBuyer-seller communication\nNegotiations & structuring"]
-  E2["📝 Contracts & Negotiation\nPurchase agreements\nContingencies & amendments"]
-  E3["✔️ Closing & Compliance\nTitle, escrow, timeline\n🏷️ State Licensed\n🏷️ Compliant"]
+subgraph L5["5 - Transaction Coordination Layer"]
+  E1["Licensed Agent Facilitation"]
+  E2["Contracts and Negotiation"]
+  E3["Closing and Compliance"]
   E1 --> E2 --> E3
 end
 
-%% ══════════════════════════════════════════
-%% LAYER 6 — GROWTH ENGINE
-%% ══════════════════════════════════════════
-subgraph L6["⑥ Growth Engine"]
-  direction LR
-  F1["🔍 Investor Recruitment\nScrape cash buyer lists\nTarget FB groups & REI meetups"]
-  F2["🌐 Market Expansion\nClone playbook to new cities\nLocalize filters & compliance"]
-  F3["⚡ Always-On Automation\n24/7 multi-market\nAI monitors & adjusts"]
+subgraph L6["6 - Growth Engine"]
+  F1["Cash Buyer List Recruitment"]
+  F2["New Market Expansion"]
+  F3["24/7 Multi-Market Automation"]
   F1 --> F2 --> F3
 end
 
-%% ══════════════════════════════════════════
-%% TECH STACK
-%% ══════════════════════════════════════════
-subgraph TS["🛠️ Tech Stack"]
-  T1["🔵 PropStream & Batch Leads\nData Acquisition & Skip-Tracing"]
-  T2["🟢 OpenClaw\nOutreach Automation"]
-  T3["🟠 HubSpot CRM\nLead Mgmt & Deal Distribution"]
-  T4["🟣 Claude / Kimi AI\nOrchestration & Automation"]
+subgraph TS["Tech Stack"]
+  T1["PropStream and Batch Leads"]
+  T2["OpenClaw"]
+  T3["HubSpot CRM"]
+  T4["Claude and Kimi AI"]
 end
 
-%% ══════════════════════════════════════════
-%% KPI METRICS
-%% ══════════════════════════════════════════
-subgraph KPI["📊 Key Performance Metrics"]
-  K1["2,500+ Leads/Mo"]
-  K2["8.4% Seller Response Rate"]
-  K3["45 Qualified Deals/Mo"]
-  K4["32% Investor Conversion"]
-  K5["12 Deals Closed/Mo"]
+subgraph KPI["Key Performance Metrics"]
+  K1["2500+ Leads per Month"]
+  K2["8.4 pct Seller Response"]
+  K3["45 Qualified Deals per Month"]
+  K4["32 pct Investor Conversion"]
+  K5["12 Deals Closed per Month"]
   K6["800+ Investor Database"]
 end
 
-%% ══════════════════════════════════════════
-%% MAIN PIPELINE FLOW (top to bottom)
-%% ══════════════════════════════════════════
-A3 -->|"Qualified leads + contact info"| B1
-B3 -->|"Motivated seller responses"| C1
-C3 -->|"Deals matched to investor profiles"| D1
-D3 -->|"Interested investor + matched deal"| E1
-E3 -->|"Revenue & data"| F1
+A3 -->|"Leads and contacts"| B1
+B3 -->|"Seller responses"| C1
+C3 -->|"Matched deals"| D1
+D3 -->|"Investor and deal pair"| E1
+E3 -->|"Revenue and data"| F1
 
-%% ══════════════════════════════════════════
-%% FEEDBACK LOOPS
-%% ══════════════════════════════════════════
-F2 -.->|"New markets feed\ngeo-farming targets"| A1
-F1 -.->|"New investors expand\nbuyer database"| D1
-E3 -.->|"Closed deal revenue\nfunds expansion"| F1
+F2 -.->|"New market targets"| A1
+F1 -.->|"New investors"| D1
+E3 -.->|"Revenue funds growth"| F1
 
-%% ══════════════════════════════════════════
-%% STYLES
-%% ══════════════════════════════════════════
 style L1 fill:#eff6ff,stroke:#2563eb,stroke-width:2px,color:#1e293b
 style L2 fill:#f0fdfa,stroke:#0d9488,stroke-width:2px,color:#1e293b
 style L3 fill:#f0fdf4,stroke:#16a34a,stroke-width:2px,color:#1e293b
@@ -127,32 +80,25 @@ style KPI fill:#f8fafc,stroke:#475569,stroke-width:2px,color:#1e293b
 style A1 fill:#dbeafe,stroke:#2563eb,color:#1e3a5f
 style A2 fill:#dbeafe,stroke:#2563eb,color:#1e3a5f
 style A3 fill:#dbeafe,stroke:#2563eb,color:#1e3a5f
-
 style B1 fill:#ccfbf1,stroke:#0d9488,color:#134e4a
 style B2 fill:#ccfbf1,stroke:#0d9488,color:#134e4a
 style B3 fill:#ccfbf1,stroke:#0d9488,color:#134e4a
-
 style C1 fill:#dcfce7,stroke:#16a34a,color:#14532d
 style C2 fill:#dcfce7,stroke:#16a34a,color:#14532d
 style C3 fill:#dcfce7,stroke:#16a34a,color:#14532d
-
 style D1 fill:#ffedd5,stroke:#ea580c,color:#7c2d12
 style D2 fill:#ffedd5,stroke:#ea580c,color:#7c2d12
 style D3 fill:#ffedd5,stroke:#ea580c,color:#7c2d12
-
 style E1 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
 style E2 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
 style E3 fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
-
 style F1 fill:#ede9fe,stroke:#7c3aed,color:#3b0764
 style F2 fill:#ede9fe,stroke:#7c3aed,color:#3b0764
 style F3 fill:#ede9fe,stroke:#7c3aed,color:#3b0764
-
 style T1 fill:#dbeafe,stroke:#2563eb,color:#1e3a5f
 style T2 fill:#ccfbf1,stroke:#0d9488,color:#134e4a
 style T3 fill:#ffedd5,stroke:#ea580c,color:#7c2d12
 style T4 fill:#ede9fe,stroke:#7c3aed,color:#3b0764
-
 style K1 fill:#dbeafe,stroke:#2563eb,color:#1e3a5f
 style K2 fill:#ccfbf1,stroke:#0d9488,color:#134e4a
 style K3 fill:#dcfce7,stroke:#16a34a,color:#14532d
