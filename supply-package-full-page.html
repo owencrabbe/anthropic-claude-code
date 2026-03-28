@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Supply Package — Resources from Owen Crabbe for young men building something real.">
+  <title>The Supply Package — owencrabbe.com</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+
+    /* ─── RESET ─────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    /* ─── BASE ───────────────────────────────────────────────────── */
+    body {
+      background-color: #0a0a0a;
+      color: #e8e8e0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────────── */
+    .page-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 36px;
+    }
+
+    /* ─── SHARED SECTION TOKENS ──────────────────────────────────── */
+    .section-eyebrow {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #b89a5e;
+      margin-bottom: 36px;
+    }
+
+    .section-heading {
+      font-family: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+      font-size: clamp(20px, 2.8vw, 25px);
+      font-weight: 300;
+      color: #f0efe6;
+      line-height: 1.42;
+      margin-bottom: 32px;
+      letter-spacing: -0.01em;
+    }
+
+    .rule {
+      border: none;
+      border-top: 1px solid #1d1d1d;
+      margin: 0;
+    }
+
+    /* ─── HERO ───────────────────────────────────────────────────── */
+    .section-hero {
+      padding: 108px 0 88px;
+      text-align: left;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #b89a5e;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #1d1d1d;
+      width: 100%;
+    }
+
+    .hero-headline {
+      font-family: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 300;
+      line-height: 1.22;
+      color: #f5f4eb;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: #d4c49a;
+    }
+
+    .hero-subheadline {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #7a7a72;
+      line-height: 1.72;
+      max-width: 500px;
+      border-left: 1px solid #2a2a2a;
+      padding-left: 20px;
+    }
+
+    /* ─── STORY ──────────────────────────────────────────────────── */
+    .section-story {
+      padding: 80px 0;
+    }
+
+    .section-story p {
+      font-size: 15px;
+      line-height: 1.88;
+      color: #bcbcb4;
+      margin-bottom: 26px;
+    }
+
+    .section-story p:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-story p strong {
+      font-weight: 400;
+      color: #d8d8d0;
+    }
+
+    /* ─── WHO THIS IS FOR ────────────────────────────────────────── */
+    .section-who {
+      padding: 80px 0;
+    }
+
+    .who-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .who-list li {
+      font-family: 'Inter', sans-serif;
+      font-size: 14.5px;
+      font-weight: 300;
+      color: #bcbcb4;
+      padding: 16px 0;
+      border-bottom: 1px solid #181818;
+      line-height: 1.65;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .who-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background: #b89a5e;
+      opacity: 0.5;
+    }
+
+    .who-list li:first-child {
+      border-top: 1px solid #181818;
+    }
+
+    /* ─── OFFER ──────────────────────────────────────────────────── */
+    .section-offer {
+      padding: 80px 0;
+    }
+
+    .offer-intro {
+      font-size: 14.5px;
+      color: #7a7a72;
+      margin-bottom: 52px;
+      line-height: 1.8;
+    }
+
+    .offer-item {
+      margin-bottom: 44px;
+      padding-bottom: 44px;
+      border-bottom: 1px solid #181818;
+    }
+
+    .offer-item:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .offer-item-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #b89a5e;
+      margin-bottom: 12px;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
+    .offer-item-title {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: #eeeee6;
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    .offer-item-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #7a7a72;
+      line-height: 1.82;
+    }
+
+    .offer-closing-note {
+      margin-top: 52px;
+      padding: 28px 0 0;
+      border-top: 1px solid #181818;
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-size: 15px;
+      font-style: italic;
+      font-weight: 300;
+      color: #7a7a72;
+      line-height: 1.75;
+    }
+
+    /* ─── PROOF ──────────────────────────────────────────────────── */
+    .section-proof {
+      padding: 80px 0;
+    }
+
+    .proof-block {
+      border-left: 1px solid #b89a5e;
+      padding-left: 28px;
+    }
+
+    .proof-statement {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-size: clamp(16px, 2.4vw, 19px);
+      font-weight: 300;
+      font-style: italic;
+      color: #c0c0b8;
+      line-height: 1.68;
+      margin-bottom: 18px;
+    }
+
+    .proof-attribution {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #404038;
+      font-weight: 400;
+    }
+
+    /* ─── OPTIN FORM ─────────────────────────────────────────────── */
+    .section-optin {
+      padding: 80px 0;
+    }
+
+    .optin-heading {
+      font-family: 'IBM Plex Serif', Georgia, serif;
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 300;
+      color: #f0efe6;
+      margin-bottom: 10px;
+      line-height: 1.28;
+      letter-spacing: -0.01em;
+    }
+
+    .optin-subheading {
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      font-weight: 300;
+      color: #5a5a52;
+      margin-bottom: 44px;
+      letter-spacing: 0.01em;
+    }
+
+    /*
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      SYSTEME.IO FORM PLACEHOLDER
+      Replace the .form-shell block below with your Systeme.io
+      custom form embed code. Keep the .form-disclaimer below it.
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    */
+    .form-shell {
+      /* wrapper for placeholder styling only */
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-input {
+      display: block;
+      width: 100%;
+      background: #111111;
+      border: 1px solid #222222;
+      color: #e8e8e0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      padding: 15px 18px;
+      outline: none;
+      border-radius: 0;
+      -webkit-appearance: none;
+      appearance: none;
+      transition: border-color 0.18s ease;
+    }
+
+    .form-input::placeholder {
+      color: #383832;
+    }
+
+    .form-input:focus {
+      border-color: #b89a5e;
+    }
+
+    .form-submit {
+      display: block;
+      width: 100%;
+      background: #e8e8e0;
+      color: #0a0a0a;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 17px 24px;
+      cursor: pointer;
+      margin-top: 14px;
+      border-radius: 0;
+      -webkit-appearance: none;
+      appearance: none;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    .form-submit:hover {
+      background: #f5f5ee;
+    }
+    /*
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      END SYSTEME.IO FORM PLACEHOLDER
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    */
+
+    .form-disclaimer {
+      margin-top: 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #383832;
+      text-align: center;
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+    }
+
+    /* ─── COMMUNITY ──────────────────────────────────────────────── */
+    .section-community {
+      padding: 80px 0;
+    }
+
+    .community-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #bcbcb4;
+      line-height: 1.88;
+      margin-bottom: 40px;
+    }
+
+    .btn-community {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid #2a2a2a;
+      color: #c8c8c0;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 15px 30px;
+      text-decoration: none;
+      transition: border-color 0.18s ease, color 0.18s ease;
+      cursor: pointer;
+    }
+
+    .btn-community:hover {
+      border-color: #b89a5e;
+      color: #b89a5e;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    .section-footer {
+      padding: 48px 0 64px;
+    }
+
+    .footer-copy {
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5px;
+      color: #2e2e28;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .page-wrapper {
+        padding: 0 24px;
+      }
+
+      .section-hero {
+        padding: 72px 0 64px;
+      }
+
+      .section-story,
+      .section-who,
+      .section-offer,
+      .section-proof,
+      .section-optin,
+      .section-community {
+        padding: 64px 0;
+      }
+
+      .hero-subheadline {
+        max-width: 100%;
+      }
+
+      .proof-block {
+        padding-left: 20px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 1 — PATTERN INTERRUPT HEADER
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-hero">
+
+      <span class="hero-eyebrow">A note from Owen</span>
+
+      <h1 class="hero-headline">
+        The gap isn't intelligence.<br>
+        It's the absence of a<br>
+        <em>working system.</em>
+      </h1>
+
+      <p class="hero-subheadline">
+        This is for the guy who's already thinking differently than most people his age — but hasn't built something to show for it yet.
+      </p>
+
+    </section>
+
+    <hr class="rule">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 2 — THE STORY
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-story">
+
+      <p>Most guys I know around my age are in the same place. Smart, curious, watching the right people. They've read the right things. They know the frameworks. But there's a gap between understanding something and actually doing it — and almost nobody talks honestly about why that gap exists, or how to close it.</p>
+
+      <p>What shifted for me was treating trading less like a lottery ticket and more like a skill worth building slowly. I stopped chasing signals and started studying process. I stopped asking "what's the trade" and started asking "why does this setup matter." That change — from outcome-chasing to system-building — is what eventually got me funded. It didn't happen fast. It happened <strong>consistently.</strong></p>
+
+      <p>The other thing I figured out is that building a presence online doesn't require performance. You don't have to manufacture a persona or chase attention. If you're genuinely doing the work, documenting it honestly is content enough. The people who find you through that are the people worth having in your circle.</p>
+
+      <p>I'm 22. I don't have it figured out. But I know what actually helped me move forward — what I read, what I practiced, what I stopped wasting time on — and that's what's in this package. No funnel behind it. No upsell waiting for you. Just the resources, and a room to continue the conversation in.</p>
+
+    </section>
+
+    <hr class="rule">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 3 — WHO THIS IS FOR
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-who">
+
+      <span class="section-eyebrow">Who this is for</span>
+
+      <ul class="who-list">
+        <li>You're trying to build something real, not just make noise.</li>
+        <li>You already know most of what's online is recycled.</li>
+        <li>You want a system, not motivation.</li>
+        <li>You're okay starting small if it means starting right.</li>
+      </ul>
+
+    </section>
+
+    <hr class="rule">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 4 — WHAT'S INSIDE THE SUPPLY PACKAGE
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-offer">
+
+      <span class="section-eyebrow">The Supply Package</span>
+      <h2 class="section-heading">Three resources. The most useful things I've put together.</h2>
+
+      <p class="offer-intro">This is the collection I wish someone had handed me when I was starting out. Each piece comes from something I actually used — not content I made to fill a funnel.</p>
+
+      <div class="offer-item">
+        <div class="offer-item-number">Resource 01</div>
+        <div class="offer-item-title">5 Prop Firms Compared</div>
+        <p class="offer-item-desc">A side-by-side breakdown of the five prop firms I evaluated before choosing where to trade. Covers payout structures, evaluation criteria, drawdown rules, and what I'd tell someone applying for the first time. The kind of document that saves two months of bad research and three weeks of buyer's remorse.</p>
+      </div>
+
+      <div class="offer-item">
+        <div class="offer-item-number">Resource 02</div>
+        <div class="offer-item-title">The Books That Changed How I Think</div>
+        <p class="offer-item-desc">Not a standard reading list. These are the specific titles that shifted how I approach trading, discipline, and building anything long-term — annotated with what actually landed and why. Shorter than you'd expect. More useful than most courses I've seen priced at four figures.</p>
+      </div>
+
+      <div class="offer-item">
+        <div class="offer-item-number">Resource 03</div>
+        <div class="offer-item-title">My First 30 Days Paper Trading</div>
+        <p class="offer-item-desc">A walkthrough of my early practice period: what I tracked, what I got wrong, and the specific habits that carried into live trading. I've found this more useful to share than any framework-heavy guide, because it's honest about the process — not just the outcome.</p>
+      </div>
+
+      <p class="offer-closing-note">These are worth charging for. I'm not charging for them because I'd rather the right people find them than make a few dollars on the wrong ones.</p>
+
+    </section>
+
+    <hr class="rule">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 5 — SOCIAL PROOF
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-proof">
+
+      <span class="section-eyebrow">Where things stand</span>
+
+      <div class="proof-block">
+        <p class="proof-statement">"Currently holding a funded prop firm account. Everything in the Supply Package reflects what I used to get there."</p>
+        <p class="proof-attribution">— Owen Crabbe &nbsp;·&nbsp; @owencrabbe</p>
+      </div>
+
+    </section>
+
+    <hr class="rule">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 6 — OPTIN FORM
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-optin">
+
+      <h2 class="optin-heading">Get the Supply Package.</h2>
+      <p class="optin-subheading">Enter your email. It ships immediately.</p>
+
+      <!-- ╔══════════════════════════════════════════════════════════╗
+           ║  REPLACE THIS ENTIRE BLOCK WITH YOUR SYSTEME.IO EMBED   ║
+           ║  [SYSTEME_IO_FORM_EMBED]                                 ║
+           ╚══════════════════════════════════════════════════════════╝ -->
+      <div class="form-shell">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-input"
+            name="firstname"
+            placeholder="First name"
+            autocomplete="given-name"
+          >
+        </div>
+        <div class="form-group">
+          <input
+            type="email"
+            class="form-input"
+            name="email"
+            placeholder="Email address"
+            autocomplete="email"
+          >
+        </div>
+        <button type="submit" class="form-submit">Send Me the Package</button>
+      </div>
+      <!-- ╔══════════════════════════════════════════════════════════╗
+           ║  END SYSTEME.IO FORM EMBED                               ║
+           ╚══════════════════════════════════════════════════════════╝ -->
+
+      <p class="form-disclaimer">No spam. No pitch. Just the package and the community link.</p>
+
+    </section>
+
+    <hr class="rule">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 7 — COMMUNITY / TELEGRAM
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-community">
+
+      <span class="section-eyebrow">The room</span>
+      <h2 class="section-heading">There's also a Telegram.</h2>
+
+      <p class="community-body">A small group of people who are actually building — not just watching. No noise, no pitch, no performance. Just an honest space to share what's working, ask real questions, and stay in proximity to people who take the same things seriously that you do.</p>
+
+      <a
+        href="https://t.me/+MGt-gfPvWSg3MTVh"
+        class="btn-community"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Join the Telegram</a>
+
+    </section>
+
+    <hr class="rule">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         FOOTER
+         ═══════════════════════════════════════════════════════════ -->
+    <footer class="section-footer">
+      <p class="footer-copy">© 2026 Owen Crabbe &nbsp;·&nbsp; owencrabbe.com</p>
+    </footer>
+
+  </div><!-- /page-wrapper -->
+
+</body>
+</html>
