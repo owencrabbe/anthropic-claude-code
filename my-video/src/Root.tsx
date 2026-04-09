@@ -1,17 +1,16 @@
-import { Composition } from "remotion";
-import { MyComposition } from "./Composition";
+import {Composition} from 'remotion';
+import {StockMarketVideo} from './StockMarketVideo';
 
+// 10 minutes at 30fps = 18,000 frames
 export const RemotionRoot: React.FC = () => {
-  return (
-    <>
-      <Composition
-        id="MyComp"
-        component={MyComposition}
-        durationInFrames={60}
-        fps={30}
-        width={1280}
-        height={720}
-      />
-    </>
-  );
+	return (
+		<Composition
+			id="StockMarket101"
+			component={StockMarketVideo}
+			durationInFrames={18000}
+			fps={30}
+			width={1920}
+			height={1080}
+		/>
+	);
 };
